@@ -1,7 +1,9 @@
 package com.fatehole.servicebase.exception;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.fatehole.commonutil.ExceptionUtil;
 import com.fatehole.commonutil.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @version 1.0.0
  * @date Create in 2020/11/09/17:09
  */
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -31,6 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(LemonException.class)
     @ResponseBody
     public Result error(LemonException e){
+        log.error(ExceptionUtil.getMessage(e));
         e.printStackTrace();
         return Result.error().message(e.getMsg()).code(e.getCode());
     }

@@ -23,12 +23,17 @@ import java.util.Map;
  * @since 2020-11-08
  */
 @Api(tags = "教师管理" )
+@CrossOrigin
 @RestController
 @RequestMapping("/eduservice/teacher")
 public class EduTeacherController {
 
-    @Autowired
     private EduTeacherService eduTeacherService;
+
+    @Autowired
+    public void setEduTeacherService(EduTeacherService eduTeacherService) {
+        this.eduTeacherService = eduTeacherService;
+    }
 
     /**
      * 查询教师的所有数据

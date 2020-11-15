@@ -6,7 +6,7 @@ export default {
    * 讲师列表（条件查询分页）
    * @param {current} current 当前页
    * @param {limit} limit 每页的记录数
-   * @param {teacherQuery} teacherQuery 查询条件对象
+   * @param {*} teacherQuery 查询条件对象
    */
   getTeacherListPage(current, limit, teacherQuery) {
     return request({
@@ -29,10 +29,37 @@ export default {
     });
   },
 
+  /**
+   * 根据传入的teacher对象发送保存请求
+   * @param {*} teacher 讲师信息
+   */
   addTeacher(teacher) {
     return request({
       url: `/eduservice/teacher`,
       method: 'post',
+      data: teacher
+    });
+  },
+
+  /**
+   * 根据ID查询讲师
+   * @param {*} id 讲师ID
+   */
+  getTeacherInfo(id) {
+    return request({
+      url: `/eduservice/teacher/${id}`,
+      method: 'get'
+    });
+  },
+
+  /**
+   * 修改讲师信息
+   * @param {*} teacher 讲师信息
+   */
+  updateTeacherInfo(teacher) {
+    return request({
+      url: `/eduservice/teacher/${teacher.id}`,
+      method: 'put',
       data: teacher
     });
   }

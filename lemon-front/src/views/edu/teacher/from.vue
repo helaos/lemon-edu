@@ -6,7 +6,7 @@
       </el-form-item>
 
       <el-form-item label="讲师排序">
-        <el-input-number v-model="teacher.sort" controls-position="right" min="0" />
+        <el-input-number v-model="teacher.sort" controls-position="right" :min="0" />
       </el-form-item>
 
       <el-form-item label="讲师头衔">
@@ -29,6 +29,7 @@
       </el-form-item>
 
       <!-- 讲师头像：TODO -->
+
       <el-form-item>
         <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdate">保存</el-button>
       </el-form-item>
@@ -37,48 +38,120 @@
 </template>
 
 <script>
-import teach from '@/api/edu/teacher.js';
+  import teach from '@/api/edu/teacher.js';
 
-export default {
+  export default {
 
-  data() {
-    return {
-      teacher: {
-        name: '',
-        sort: 0,
-        level: 1,
-        career: '',
-        intro: '',
-        avatar: ''
-      },
-      saveBtnDisabled: false    // 保存按钮是否禁用
-    }
-  },
-  created() {
-
-  },
-  method: {
-    // 讲师修改的方法
-    saveOrUpdate() {
-
-      // 保存修改
-      this.saveTeacher();
+    data() {
+      return {
+        teacher: {
+          name: '',
+          sort: 0,
+          level: 1,
+          career: '',
+          intro: '',
+          avatar: ''
+        },
+        saveBtnDisabled: false // 保存按钮是否禁用
+      }
     },
+    created() {
+      console.log('created');
+      this.init();
 
-    // 讲师添加的方法
-    saveTeacher() {
-      teach.addTeacher(this.teacher)
-        .then(response => {   // 添加成功
-          // 提示信息
-          this.$message({
-            type: 'success',
-            message: '添加成功!'
+    },
+    watch: {    // 监听
+      $route(to, from) {    // 路由的变化方式
+        this.init();
+      }
+    },
+    methods: {
+      // 初始化
+      init() {
+        if (this.$route.params && this.$route.params.id) {
+          const id = this.$route.params.id;
+          this.getInfo(id);
+        } else {
+          // 使用对象拓展运算符，拷贝对象，而不是引用，
+          // 否则新增一条记录后，defaultForm就变成了之前新增的teacher的值
+          this.teacher = { }
+        }
+      },
+
+      // 讲师修改的方法
+      saveOrUpdate() {
+        // 打开按钮的禁用
+        this.saveBtnDisabled = true;
+        
+        if (!this.teacher.id) {
+          // 保存修改
+          this.saveTeacher();
+        } else {
+          this.updateTeacher()
+        }
+      },
+
+      // 讲师添加的方法
+      saveTeacher() {
+        teach.addTeacher(this.teacher)
+          .then(response => { // 添加成功
+            // 提示信息
+            return this.$message({
+              type: 'success',
+              message: '保存成功!'
+            });
+          }).then(response => {
+            // 回到列表页面
+            this.$router.push({
+              path: '/teacher'
+            });
+          }).catch(error => {
+            this.$message({
+              type: 'error',
+              message: '保存失败!'
+            });
+          });
+      },
+
+      // 根据讲师id查询的方法
+      getInfo(id) {
+        teach.getTeacherInfo(id)
+          .then(response => {
+            this.teacher = response.data.item;
           })
-          // 回到列表页面
-          
-        });
+          .catch(error => {
+            this.$message({
+              type: 'error',
+              message: '获取数据失败'
+            })
+          });
+      },
+
+      // 修改讲师的方法
+      updateTeacher() {
+        // 打开按钮的禁用
+        this.saveBtnDisabled = true;
+
+        teach.updateTeacherInfo(this.teacher)
+          .then(response => {
+            return this.$message({
+              type: 'success',
+              message: '修改成功!'
+            });
+          })
+          .then(response => {
+            this.$router.push({
+              path: '/teacher'
+            })
+          })
+          .catch(error => {
+            this.$message({
+              type: 'error',
+              message: '保存失败!'
+            });
+          });
+      }
     }
   }
-}
 
 </script>

@@ -60,7 +60,7 @@ public class EduTeacherController {
         if (flag) {
             return Result.ok();
         } else {
-            return Result.error();
+            return Result.error().message("删除失败！");
         }
 
     }

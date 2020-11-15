@@ -33,7 +33,8 @@ export const constantRouterMap = [
     hidden: true,
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: '柠檬🍋教育后台管理系统', icon: 'dashboard' }
     }]
   },
 
@@ -45,7 +46,7 @@ export const constantRouterMap = [
     meta: { title: '讲师管理', icon: 'peoples' },
     children: [
       {
-        path: 'table',
+        path: 'list',
         name: 'EduTeacherList',
         component: () => import('@/views/edu/teacher/list'),
         meta: { title: '讲师列表', icon: 'table' }
@@ -55,6 +56,13 @@ export const constantRouterMap = [
         name: 'EduTeacherCreate',
         component: () => import('@/views/edu/teacher/from'),
         meta: { title: '添加讲师', icon: 'user' }
+      },
+      {
+        path: 'edit/:id',
+        name: 'EduTeacherEdit',
+        component: () => import('@/views/edu/teacher/from'),
+        meta: { title: '编辑讲师', noCache: true },
+        hidden: true
       }
     ]
   },

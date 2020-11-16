@@ -1,0 +1,16 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: service-oss
+
+  profiles:
+    active: dev
+
+aliyun:
+  oss:
+    file:
+      endpoint: <your endpoint>
+      keyid: <your keyid>
+      keysecret: <your keysecret>
+      bucketname: <your bucketname>

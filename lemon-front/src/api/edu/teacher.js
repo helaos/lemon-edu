@@ -4,8 +4,8 @@ export default {
 
   /**
    * 讲师列表（条件查询分页）
-   * @param {current} current 当前页
-   * @param {limit} limit 每页的记录数
+   * @param {*} current 当前页
+   * @param {*} limit 每页的记录数
    * @param {*} teacherQuery 查询条件对象
    */
   getTeacherListPage(current, limit, teacherQuery) {
@@ -43,7 +43,7 @@ export default {
 
   /**
    * 根据ID查询讲师
-   * @param {*} id 讲师ID
+   * @param {id} id 讲师ID
    */
   getTeacherInfo(id) {
     return request({

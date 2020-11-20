@@ -31,11 +31,10 @@
       <!-- 讲师头像：TODO -->
       <el-form-item label="讲师头像">
         <!-- 头衔缩略图 -->
-        <pan-thumb :image="String(teacher.avatar)"/>
+        <pan-thumb :image="String(teacher.avatar)" />
 
         <!-- 文件上传按钮 -->
-        <el-button type="primary" icon="el-icon-upload"
-          @click="imagecropperShow=true">更换头像
+        <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">更换头像
         </el-button>
 
         <!--
@@ -44,15 +43,8 @@
           :url：后台上传的url地址
           @close：关闭上传组件
           @crop-upload-success：上传成功后的回调 -->
-        <image-cropper
-          v-show="imagecropperShow"
-          :width="300"
-          :height="300"
-          :key="imagecropperKey"
-          :url="BASE_API+'/eduoss/file/upload'"
-          field="file"
-          @close="close"
-          @crop-upload-success="cropSuccess"/>
+        <image-cropper v-show="imagecropperShow" :width="300" :height="300" :key="imagecropperKey"
+          :url="BASE_API+'/eduoss/file/upload'" field="file" @close="close" @crop-upload-success="cropSuccess" />
       </el-form-item>
 
       <el-form-item>
@@ -67,23 +59,28 @@
   import ImageCropper from '@/components/ImageCropper';
   import PanThumb from '@/components/PanThumb';
 
+  const defaultForm = {
+    name: '',
+    sort: 0,
+    level: 1,
+    career: '',
+    intro: '',
+    avatar: process.env.OSS_PATH + '/avatar/default.png'
+  }
+
   export default {
 
-    components: { ImageCropper, PanThumb },
+    components: {
+      ImageCropper,
+      PanThumb
+    },
 
     data() {
       return {
-        teacher: {
-          name: '',
-          sort: 0,
-          level: 1,
-          career: '',
-          intro: '',
-          avatar: ''
-        },
+        teacher: defaultForm,
         imagecropperShow: false, // 上传弹框组件是否显示
-        imagecropperKey: 0,  // 唯一标识
-        BASE_API: process.env.BASE_API,  // 获取dev.env.js里面的地址
+        imagecropperKey: 0, // 唯一标识
+        BASE_API: process.env.BASE_API, // 获取dev.env.js里面的地址
         saveBtnDisabled: false // 保存按钮是否禁用
       }
     },
@@ -92,8 +89,8 @@
       this.init();
 
     },
-    watch: {    // 监听
-      $route(to, from) {    // 路由的变化方式
+    watch: { // 监听
+      $route(to, from) { // 路由的变化方式
         this.init();
       }
     },
@@ -106,7 +103,9 @@
         } else {
           // 使用对象拓展运算符，拷贝对象，而不是引用，
           // 否则新增一条记录后，defaultForm就变成了之前新增的teacher的值
-          this.teacher = { }
+          this.teacher = {
+            avatar: process.env.OSS_PATH + '/avatar/default.png'
+          }
         }
       },
 
@@ -114,7 +113,7 @@
       saveOrUpdate() {
         // 打开按钮的禁用
         this.saveBtnDisabled = true;
-        
+
         if (!this.teacher.id) {
           // 保存修改
           this.saveTeacher();
@@ -183,7 +182,7 @@
             });
           });
       },
-      
+
       // 关闭上传弹框的方法
       close() {
         this.imagecropperShow = false;

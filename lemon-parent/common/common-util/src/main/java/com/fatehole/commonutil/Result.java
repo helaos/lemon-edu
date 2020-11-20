@@ -1,9 +1,7 @@
 package com.fatehole.commonutil;
 
-import com.baomidou.mybatisplus.extension.api.R;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import sun.plugin2.os.windows.FLASHWINFO;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,6 +2,9 @@ package com.fatehole.eduservice.service;
 
 import com.fatehole.eduservice.entity.EduChapter;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fatehole.eduservice.entity.vo.ChapterVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduChapterService extends IService<EduChapter> {
 
+    /**
+     * 根据课程ID查询课程大纲列表
+     * @param courseId 课程ID
+     * @return 大纲列表
+     */
+    List<ChapterVo> getChapterVideoByCourseId(String courseId);
 }

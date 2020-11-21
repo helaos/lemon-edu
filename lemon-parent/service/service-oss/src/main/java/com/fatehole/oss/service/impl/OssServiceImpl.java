@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.attribute.FileTime;
 import java.util.UUID;
 
 /**
@@ -42,10 +43,16 @@ public class OssServiceImpl implements OssService {
             String datePath = new DateTime().toString("yyyy/MM/dd");
 
             // 分类文件夹
-            String classification = "avatar";
+            String classification = "picture";
+
+            // 获取文件原名
+            String originalFilename = file.getOriginalFilename();
+
+            // 截取类型
+            String fileType = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : ".jpg";
 
             // 获取文件名称
-            String filename = classification + "/" + datePath + uuid + file.getOriginalFilename();
+            String filename = classification + "/" + datePath + "/" + uuid + "file" + fileType;
 
             // 实现上传
             ossClient.putObject(bucketName, filename, inputStream);

@@ -20,7 +20,7 @@ export default {
 
   /**
    * 根据id逻辑删除教师
-   * @param {id} id 教师id
+   * @param {*} id 教师id
    */
   deleteTeacherById(id) {
     return request({
@@ -43,7 +43,7 @@ export default {
 
   /**
    * 根据ID查询讲师
-   * @param {id} id 讲师ID
+   * @param {*} id 讲师ID
    */
   getTeacherInfo(id) {
     return request({
@@ -51,7 +51,7 @@ export default {
       method: 'get'
     });
   },
-
+  
   /**
    * 修改讲师信息
    * @param {*} teacher 讲师信息
@@ -61,6 +61,16 @@ export default {
       url: `/eduservice/teacher/${teacher.id}`,
       method: 'put',
       data: teacher
+    });
+  },
+
+    /**
+   * 获取所有的讲师信息
+   */
+  getListTeacher() {
+    return request({
+      url: '/eduservice/teacher',
+      method: 'get'
     });
   }
 

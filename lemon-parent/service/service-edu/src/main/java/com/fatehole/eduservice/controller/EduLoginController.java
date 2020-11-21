@@ -1,6 +1,7 @@
 package com.fatehole.eduservice.controller;
 
 import com.fatehole.commonutil.Result;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0.0
  * @date Create in 2020/11/14/15:13
  */
+@Api(tags = "管理员登陆" )
 @RestController
 @RequestMapping("/eduservice/user")
 @CrossOrigin

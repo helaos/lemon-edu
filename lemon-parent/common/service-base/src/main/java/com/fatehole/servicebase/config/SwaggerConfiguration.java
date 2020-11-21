@@ -5,12 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+
 
 /**
  * Swagger API文档相关配置
@@ -44,11 +45,11 @@ public class SwaggerConfiguration {
 
                 // 选择哪些接口作为swagger的doc发布
                 .select()
+                .apis(RequestHandlerSelectors.basePackage("com.fatehole"))
                 // 暂时全部扫描
-                .paths(PathSelectors.any())
+                // .paths(PathSelectors.any())
                 .build();
     }
-
 
     /**
      * API 页面上半部分展示信息

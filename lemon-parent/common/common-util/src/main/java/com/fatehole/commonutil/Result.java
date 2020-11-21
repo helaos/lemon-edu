@@ -2,7 +2,6 @@ package com.fatehole.commonutil;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.util.HashMap;
 import java.util.Map;
 

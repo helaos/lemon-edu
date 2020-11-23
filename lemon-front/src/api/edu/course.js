@@ -16,7 +16,7 @@ export default {
 
   /**
    * 根据课程id查询课程的基本信息
-   * @param {*}} id 课程ID
+   * @param {*} id 课程ID
    */
   getCourseInfoById(id) {
     return request({
@@ -34,6 +34,28 @@ export default {
       url: `/eduservice/course/${courseInfo.id}`,
       method: 'put',
       data: courseInfo
+    });
+  },
+
+  /**
+   * 根据课程ID查出确认信息
+   * @param {*} id 课程ID
+   */
+  getPublishCourseInfo(id) {
+    return request({
+      url: `/eduservice/course/publish/${id}`,
+      method: 'get'
+    });
+  },
+
+  /**
+   * 最终发布方法
+   * @param {*} id 课程ID
+   */
+  publishCourse (id) {
+    return request({
+      url: `/eduservice/course/status/${id}`,
+      method: 'put'
     });
   }
 

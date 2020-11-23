@@ -115,7 +115,7 @@
         video: { // 课时对象
           title: '',
           sort: 0,
-          isFree: 0,
+          isFree: false,
           videoSourceId: ''
         },
       }
@@ -287,6 +287,7 @@
         this.video.title = ''; // 重置章节标题
         this.video.sort = 0; // 重置章节标题
         this.video.videoSourceId = ''; // 重置视频资源id
+        this.video.isFree = false;
         this.saveVideoBtnDisabled = false;
       },
 

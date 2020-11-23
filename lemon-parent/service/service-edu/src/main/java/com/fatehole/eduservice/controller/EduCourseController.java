@@ -1,9 +1,8 @@
 package com.fatehole.eduservice.controller;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fatehole.commonutil.Result;
 import com.fatehole.eduservice.entity.vo.CourseInfoVo;
+import com.fatehole.eduservice.entity.vo.CoursePublishVo;
 import com.fatehole.eduservice.service.EduCourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -67,6 +66,29 @@ public class EduCourseController {
         courseService.updateCourseInfo(courseInfoVo);
 
         return Result.ok().data("courseId", id);
+    }
+
+    @ApiOperation(value = "根据课程ID查询确认信息")
+    @GetMapping("/publish/{id}")
+    public Result getPublishCourseInfo(@ApiParam(name = "id", value = "课程ID", required = true)
+                                       @PathVariable("id") String id) {
+
+        CoursePublishVo coursePublishVo = courseService.getCoursePublishVoById(id);
+
+        return Result.ok().data("item", coursePublishVo);
+    }
+
+    @ApiOperation(value = "根据课程ID修改课程状态")
+    @PutMapping("/status/{id}")
+    public Result publishCourse(@PathVariable("id") String id) {
+
+        boolean flag = courseService.publishCourse(id);
+
+        if (flag) {
+            return Result.ok();
+        } else {
+            return Result.error().message("发布失败，未知错误！");
+        }
     }
 }
 

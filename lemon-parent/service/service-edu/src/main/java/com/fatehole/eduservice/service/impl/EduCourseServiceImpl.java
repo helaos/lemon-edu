@@ -3,6 +3,7 @@ package com.fatehole.eduservice.service.impl;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.fatehole.eduservice.entity.EduCourseDescription;
 import com.fatehole.eduservice.entity.vo.CourseInfoVo;
+import com.fatehole.eduservice.entity.vo.CoursePublishVo;
 import com.fatehole.eduservice.mapper.EduCourseMapper;
 import com.fatehole.eduservice.service.EduCourseDescriptionService;
 import com.fatehole.eduservice.service.EduCourseService;
@@ -105,5 +106,25 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         if (!flag) {
             throw new LemonException(20001, "课程详情信息保存失败");
         }
+    }
+
+    @Override
+    public CoursePublishVo getCoursePublishVoById(String id) {
+
+        // 调用mapper
+        return baseMapper.selectCoursePublishVoById(id);
+    }
+
+    @Override
+    public boolean publishCourse(String id) {
+
+        EduCourse course = new EduCourse();
+
+        // 修改课程状态
+        course.setId(id).setStatus(EduCourse.COURSE_NORMAL);
+
+        int row = baseMapper.updateById(course);
+
+        return row > 0;
     }
 }

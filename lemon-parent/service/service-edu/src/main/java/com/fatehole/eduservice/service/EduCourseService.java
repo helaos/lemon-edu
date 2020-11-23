@@ -3,6 +3,7 @@ package com.fatehole.eduservice.service;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fatehole.eduservice.entity.vo.CourseInfoVo;
+import com.fatehole.eduservice.entity.vo.CoursePublishVo;
 
 /**
  * <p>
@@ -33,4 +34,18 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param courseInfoVo 课程信息
      */
     void updateCourseInfo(CourseInfoVo courseInfoVo);
+
+    /**
+     * 根据ID查询课程确认信息
+     * @param id 课程ID
+     * @return 封装的课程确认信息
+     */
+    CoursePublishVo getCoursePublishVoById(String id);
+
+    /**
+     * 根据课程ID修改课程状态
+     * @param id 课程ID
+     * @return 是否成功
+     */
+    boolean publishCourse(String id);
 }

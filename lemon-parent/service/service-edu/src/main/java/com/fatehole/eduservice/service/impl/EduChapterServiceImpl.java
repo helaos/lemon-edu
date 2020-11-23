@@ -9,6 +9,7 @@ import com.fatehole.eduservice.mapper.EduChapterMapper;
 import com.fatehole.eduservice.service.EduChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fatehole.eduservice.service.EduVideoService;
+import com.fatehole.servicebase.exception.LemonException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,18 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
         // 遍历查询小节list集合进行封装
         return finalList;
+    }
+
+    @Override
+    public boolean removeChapterById(String id) {
+
+        //  根据id查询是否存在视频，如果有则提示用户尚有子节点
+        if (videoService.getCountByChapterId(id)) {
+            throw new LemonException(20001, "该分章节下存在视频课程，请先删除视频课程");
+        }
+
+        int result = baseMapper.deleteById(id);
+
+        return result > 0;
     }
 }

@@ -11,6 +11,7 @@ import com.fatehole.servicebase.exception.LemonException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -31,6 +32,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     }
 
     @Override
+    @Transactional(rollbackFor = LemonException.class)
     public String saveCourseInfo(CourseInfoVo courseInfoVo) {
         // 向课程表添加课程的基本信息
 
@@ -56,5 +58,52 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         }
 
         return course.getId();
+    }
+
+    @Override
+    public CourseInfoVo getCourseInfo(String courseId) {
+
+        // 查询课程表
+        EduCourse course = baseMapper.selectById(courseId);
+
+        if (course == null) {
+            throw new LemonException(20001, "数据不存在");
+        }
+
+        CourseInfoVo courseInfoVo = new CourseInfoVo();
+        BeanUtils.copyProperties(course, courseInfoVo);
+
+        // 查询描述表
+        EduCourseDescription courseDescription = courseDescriptionService.getById(courseId);
+
+        // 判断是否有值
+        if (courseDescription != null) {
+            courseInfoVo.setDescription(courseDescription.getDescription());
+        }
+
+        return courseInfoVo;
+    }
+
+    @Override
+    @Transactional(rollbackFor = LemonException.class)
+    public void updateCourseInfo(CourseInfoVo courseInfoVo) {
+        // 修改课程表
+        EduCourse course = new EduCourse();
+        BeanUtils.copyProperties(courseInfoVo, course);
+
+        int row = baseMapper.updateById(course);
+
+        if (row == 0) {
+            throw new LemonException(20001, "修改课程信息失败");
+        }
+
+        // 修改描述信息表
+        EduCourseDescription courseDescription = new EduCourseDescription();
+        courseDescription.setId(courseInfoVo.getId()).setDescription(courseInfoVo.getDescription());
+        boolean flag = courseDescriptionService.updateById(courseDescription);
+
+        if (!flag) {
+            throw new LemonException(20001, "课程详情信息保存失败");
+        }
     }
 }

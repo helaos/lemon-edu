@@ -1,5 +1,6 @@
 package com.fatehole.commonutil;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
  * @date Create in 2020/11/09/14:37
  */
 @Data
+@ApiModel(value = "统一返回结果", description = "统一的返回结果集")
 public class Result {
 
     @ApiModelProperty(value = "是否成功")

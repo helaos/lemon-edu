@@ -24,10 +24,10 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="EduSubject对象", description="课程科目")
+@ApiModel(value="课程科目对象", description="课程科目")
 public class EduSubject implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 34956349875634541L;
 
     @ApiModelProperty(value = "课程类别ID")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)

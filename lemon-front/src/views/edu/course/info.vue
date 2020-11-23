@@ -101,18 +101,14 @@
 
     watch: {
       $route(to, from) {
-        console.log('watch $route')
-        this.init()
+        console.log('watch $route');
+        this.init();
       }
     },
 
     created() {
       console.log('info created');
       this.init();
-      // 获取讲师列表
-      this.initTeacherList();
-      // 初始化分类列表
-      this.initSubjectList();
     },
 
     methods: {
@@ -121,35 +117,40 @@
       init() {
         if (this.$route.params && this.$route.params.id) {
           const id = this.$route.params.id;
-          console.log(id);
+          //根据id获取课程基本信息
+          this.fetchCourseInfoById(id);
         } else {
           this.courseInfo = {
             ...defaultForm
           }
+          // 获取讲师列表
+          this.initTeacherList();
+          // 初始化分类列表
+          this.initSubjectList();
         }
       },
 
       // 查询所有的讲师列表
       initTeacherList() {
         teacher.getListTeacher().then(response => {
-          this.teacherList = response.data.items
+          this.teacherList = response.data.items;
         });
       },
 
       // 查询所有的一级分类
       initSubjectList() {
         subject.getSubjectList().then(response => {
-          this.subjectNestedList = response.data.list
+          this.subjectNestedList = response.data.list;
         })
       },
 
       next() {
         console.log('next');
-        this.saveBtnDisabled = true
+        this.saveBtnDisabled = true;
         if (!this.courseInfo.id) {
-          this.saveData()
+          this.saveData();
         } else {
-          this.updateData()
+          this.updateData();
         }
       },
 
@@ -168,19 +169,36 @@
               path: '/course/chapter/' + response.data.courseId
             });
           })
-          .catch(response => {
+          .catch(error => {
             this.$message({
               type: 'error',
-              message: response.message
+              message: response.error
             });
           });
       },
 
       // 修改数据
       updateData() {
-        this.$router.push({
-          path: '/course/chapter/' + response.data.courseId
-        })
+        this.saveBtnDisabled = true;
+        course.updateCourseInfo(this.courseInfo)
+          .then(response => {
+            this.$message({
+              type: 'success',
+              message: '修改成功!'
+            });
+            return response // 将响应结果传递给then
+          }).then(response => {
+            console.log(response.data.courseId);
+            this.$router.push({
+              path: '/course/chapter/' + response.data.courseId
+            });
+          })
+          .catch(error => {
+            this.$message({
+              type: 'error',
+              message: '保存失败'
+            });
+          });
       },
 
       subjectLevelOneChanged(value) {
@@ -214,6 +232,34 @@
           this.$message.error('上传头像图片大小不能超过 2MB!')
         }
         return isJPG && isLt2M
+      },
+
+      fetchCourseInfoById(id) {
+        course.getCourseInfoById(id)
+          .then(response => {
+            this.courseInfo = response.data.item;
+            // 初始化分类列表
+            subject.getSubjectList()
+              .then(responseSubject => {
+                this.subjectNestedList = responseSubject.data.list;
+                // 把所有的一级分类数组进行遍历
+                for (let i = 0; i < this.subjectNestedList.length; i++) {
+                  // 比较当前courseInfo里面一级分类ID和所有的一级分类id
+                  if (this.subjectNestedList[i].id === this.courseInfo.subjectParentId) {
+                    // 获取一级分类的所有二级分类
+                    this.subSubjectList = this.subjectNestedList[i].children;
+                  }
+                }
+              })
+            // 获取讲师列表
+            this.initTeacherList();
+          })
+          .catch(error => {
+            this.$message({
+              type: 'error',
+              message: error.message
+            });
+          });
       }
     }
   }
@@ -221,7 +267,6 @@
 </script>
 
 <style scoped>
-
   .tinymce-container {
     line-height: 29px;
   }

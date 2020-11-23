@@ -2,6 +2,7 @@ package com.fatehole.eduservice.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,9 @@ import java.util.List;
  */
 
 @Data
-public class ChapterVo {
+public class ChapterVo implements Serializable {
+
+    private static final long serialVersionUID = 17546353457529L;
 
     private String id;
 

@@ -87,4 +87,16 @@ public class EduVideoServiceImpl extends ServiceImpl<EduVideoMapper, EduVideo> i
             throw new LemonException(20001, "课时信息保存失败");
         }
     }
+
+    @Override
+    public boolean removeByCourseId(String courseId) {
+
+        QueryWrapper<EduVideo> wrapper = new QueryWrapper<>();
+
+        wrapper.eq("course_id", courseId);
+
+        int row = baseMapper.delete(wrapper);
+
+        return row > 0;
+    }
 }

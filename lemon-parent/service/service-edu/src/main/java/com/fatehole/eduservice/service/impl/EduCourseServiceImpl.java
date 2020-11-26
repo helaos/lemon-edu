@@ -1,18 +1,24 @@
 package com.fatehole.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.fatehole.eduservice.entity.EduCourseDescription;
 import com.fatehole.eduservice.entity.vo.CourseInfoVo;
 import com.fatehole.eduservice.entity.vo.CoursePublishVo;
+import com.fatehole.eduservice.entity.vo.CourseQuery;
 import com.fatehole.eduservice.mapper.EduCourseMapper;
+import com.fatehole.eduservice.service.EduChapterService;
 import com.fatehole.eduservice.service.EduCourseDescriptionService;
 import com.fatehole.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fatehole.eduservice.service.EduVideoService;
 import com.fatehole.servicebase.exception.LemonException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -27,9 +33,23 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     private EduCourseDescriptionService courseDescriptionService;
 
+    private EduVideoService videoService;
+
+    private EduChapterService chapterService;
+
     @Autowired
     public void setCourseDescriptionService(EduCourseDescriptionService courseDescriptionService) {
         this.courseDescriptionService = courseDescriptionService;
+    }
+
+    @Autowired
+    public void setVideoService(EduVideoService videoService) {
+        this.videoService = videoService;
+    }
+
+    @Autowired
+    public void setChapterService(EduChapterService chapterService) {
+        this.chapterService = chapterService;
     }
 
     @Override
@@ -124,6 +144,60 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         course.setId(id).setStatus(EduCourse.COURSE_NORMAL);
 
         int row = baseMapper.updateById(course);
+
+        return row > 0;
+    }
+
+    @Override
+    public void pageQuery(Page<EduCourse> coursePage, CourseQuery courseQuery) {
+
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        // 以创建时间降序排列
+        wrapper.orderByDesc("create_time");
+
+        // 如果条记为空，全部查询
+        if (courseQuery == null) {
+            baseMapper.selectPage(coursePage, wrapper);
+            return;
+        }
+
+        String title = courseQuery.getTitle();
+        String teacherId = courseQuery.getTeacherId();
+        String subjectId = courseQuery.getSubjectId();
+        String subjectParentId = courseQuery.getSubjectParentId();
+
+        // 验证条件，并封装参数
+        if (!StringUtils.isEmpty(title)) {
+            wrapper.like("title", title);
+        }
+
+        if (!StringUtils.isEmpty(teacherId)) {
+            wrapper.like("teacher_id", teacherId);
+        }
+
+        if (!StringUtils.isEmpty(subjectId)) {
+            wrapper.like("subject_id", subjectId);
+        }
+
+        if (!StringUtils.isEmpty(subjectParentId)) {
+            wrapper.like("subject_parent_id", subjectParentId);
+        }
+
+        // 分页查询
+        baseMapper.selectPage(coursePage, wrapper);
+    }
+
+    @Override
+    public boolean removeCourseById(String id) {
+
+        //根据id删除所有视频
+        videoService.removeByCourseId(id);
+        //根据id删除所有章节
+        chapterService.removeByCourseId(id);
+        // 删除课程描述
+        courseDescriptionService.removeById(id);
+
+        int row = baseMapper.deleteById(id);
 
         return row > 0;
     }

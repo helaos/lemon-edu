@@ -1,8 +1,11 @@
 package com.fatehole.eduservice.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.commonutil.Result;
+import com.fatehole.eduservice.entity.EduCourse;
 import com.fatehole.eduservice.entity.vo.CourseInfoVo;
 import com.fatehole.eduservice.entity.vo.CoursePublishVo;
+import com.fatehole.eduservice.entity.vo.CourseQuery;
 import com.fatehole.eduservice.service.EduCourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +13,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -88,6 +94,43 @@ public class EduCourseController {
             return Result.ok();
         } else {
             return Result.error().message("发布失败，未知错误！");
+        }
+    }
+
+    @ApiOperation(value = "分页课程列表")
+    @GetMapping("/condition/{page}/{limit}")
+    public Result conditionPageQuery(@ApiParam(name = "page", value = "当前页码", required = true)
+                                     @PathVariable("page") Long page,
+                                     @ApiParam(name = "limit", value = "每页记录数", required = true)
+                                     @PathVariable("limit") Long limit,
+                                     @ApiParam(name = "courseQuery", value = "查询对象")
+                                     CourseQuery courseQuery) {
+
+        // 分页
+        Page<EduCourse> coursePage = new Page<>(page, limit);
+
+        courseService.pageQuery(coursePage, courseQuery);
+
+        // 封装结果集
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("total", coursePage.getTotal());
+        map.put("rows", coursePage.getRecords());
+
+        // 返回统一返回结果
+        return Result.ok().data(map);
+    }
+
+    @ApiOperation(value = "根据ID删除课程")
+    @DeleteMapping("/{id}")
+    public Result deleteCourse(@ApiParam(name = "id", value = "课程ID", required = true)
+                               @PathVariable("id") String id) {
+
+        boolean result = courseService.removeCourseById(id);
+
+        if (result) {
+            return Result.ok();
+        } else {
+            return Result.error().message("删除失败！");
         }
     }
 }

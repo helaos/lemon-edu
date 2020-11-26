@@ -1,9 +1,11 @@
 package com.fatehole.eduservice.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fatehole.eduservice.entity.vo.CourseInfoVo;
 import com.fatehole.eduservice.entity.vo.CoursePublishVo;
+import com.fatehole.eduservice.entity.vo.CourseQuery;
 
 /**
  * <p>
@@ -48,4 +50,18 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return 是否成功
      */
     boolean publishCourse(String id);
+
+    /**
+     * 根据具体的条件和信息分页查询
+     * @param coursePage 分页信息
+     * @param courseQuery 查询条件
+     */
+    void pageQuery(Page<EduCourse> coursePage, CourseQuery courseQuery);
+
+    /**
+     * 根据课程ID删除课程
+     * @param id 课程ID
+     * @return 是与否
+     */
+    boolean removeCourseById(String id);
 }

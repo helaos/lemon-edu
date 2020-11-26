@@ -46,4 +46,11 @@ public interface EduVideoService extends IService<EduVideo> {
      * @param videoInfoVo 更新信息
      */
     void updateVideoInfoById(VideoInfoVo videoInfoVo);
+
+    /**
+     * 根据课程ID删除课程小节
+     * @param courseId 课程ID
+     * @return 是与否
+     */
+    boolean removeByCourseId(String courseId);
 }

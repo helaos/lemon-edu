@@ -52,10 +52,35 @@ export default {
    * 最终发布方法
    * @param {*} id 课程ID
    */
-  publishCourse (id) {
+  publishCourse(id) {
     return request({
       url: `/eduservice/course/status/${id}`,
       method: 'put'
+    });
+  },
+
+  /**
+   * 可以点条件查询的分页列表
+   * @param {*} page 当前页码
+   * @param {*} limit 每页记录数
+   * @param {*} courseQuery 查询对象
+   */
+  getPageList(page, limit, courseQuery) {
+    return request({
+      url: `/eduservice/course/condition/${page}/${limit}`,
+      method: 'get',
+      data: courseQuery
+    });
+  },
+
+  /**
+   * 根据课程ID删除课程信息
+   * @param {*} id 课程ID
+   */
+    removeById(id) {
+    return request({
+      url: `/eduservice/course/${id}`,
+      method: 'delete'
     });
   }
 

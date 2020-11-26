@@ -1,6 +1,5 @@
 package com.fatehole.servicebase.exception;
 
-import com.baomidou.mybatisplus.extension.api.R;
 import com.fatehole.commonutil.ExceptionUtil;
 import com.fatehole.commonutil.Result;
 import lombok.extern.slf4j.Slf4j;

@@ -24,18 +24,19 @@
         <lemon.version>0.0.1-SNAPSHOT</lemon.version>
         <mybatis-plus.version>3.0.5</mybatis-plus.version>
         <velocity.version>2.0</velocity.version>
-        <swagger.version>2.7.0</swagger.version>
-        <jodatime.version>2.10.1</jodatime.version>
+        <swagger.version>2.10.5</swagger.version>
+        <swagger-models.version>1.5.21</swagger-models.version>
+        <jodatime.version>2.10.5</jodatime.version>
         <poi.version>3.17</poi.version>
         <commons-fileupload.version>1.3.1</commons-fileupload.version>
         <commons-io.version>2.6</commons-io.version>
         <httpclient.version>4.5.1</httpclient.version>
         <jwt.version>0.7.0</jwt.version>
-        <aliyun-java-sdk-core.version>4.3.3</aliyun-java-sdk-core.version>
-        <aliyun-sdk-oss.version>3.1.0</aliyun-sdk-oss.version>
-        <aliyun-java-sdk-vod.version>2.15.2</aliyun-java-sdk-vod.version>
-        <aliyun-java-vod-upload.version>1.4.11</aliyun-java-vod-upload.version>
-        <aliyun-sdk-vod-upload.version>1.4.11</aliyun-sdk-vod-upload.version>
+        <aliyun-java-sdk-core.version>4.5.1</aliyun-java-sdk-core.version>
+        <aliyun-sdk-oss.version>3.10.2</aliyun-sdk-oss.version>
+        <aliyun-java-sdk-vod.version>2.15.11</aliyun-java-sdk-vod.version>
+        <aliyun-java-vod-upload.version>1.4.13</aliyun-java-vod-upload.version>
+        <aliyun-sdk-vod-upload.version>1.4.13</aliyun-sdk-vod-upload.version>
         <fastjson.version>1.2.28</fastjson.version>
         <gson.version>2.8.2</gson.version>
         <json.version>20170516</json.version>
@@ -90,6 +91,36 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-spring-webmvc</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--解决进入swagger页面报类型转换错误，排除2.9.2中的引用，手动增加1.5.21版本-->
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-models.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger-models.version}</version>
             </dependency>
 
             <!--日期时间工具-->

@@ -7,7 +7,7 @@ package com.fatehole.commonutil;
  */
 public interface ResultCode {
 
-    Integer SUCCESS = 2000;
+    Integer SUCCESS = 20000;
 
-    Integer ERROR = 2001;
+    Integer ERROR = 20001;
 }

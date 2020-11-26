@@ -2,7 +2,6 @@ package com.fatehole.servicebase.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

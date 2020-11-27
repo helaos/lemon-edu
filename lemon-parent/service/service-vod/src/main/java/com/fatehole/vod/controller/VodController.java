@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @author helaos
  * @version 1.0.0
@@ -44,6 +46,15 @@ public class VodController {
                                      @PathVariable("id") String id) {
 
         vodService.removeVideo(id);
+
+        return Result.ok().message("视频删除成功");
+    }
+
+    @DeleteMapping("/batch")
+    public Result removeBatch(@ApiParam(name = "videoIdList", value = "云端视频id", required = true)
+                              @RequestParam("videoIdList") List<String> videoIdList) {
+
+        vodService.removeMoreAliVideo(videoIdList);
 
         return Result.ok().message("视频删除成功");
     }

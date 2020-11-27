@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author helaos
@@ -88,6 +89,34 @@ public class VodServiceImpl implements VodService {
             System.out.print("RequestId = " + response.getRequestId() + "\n");
 
         }catch (ClientException e){
+
+            throw new LemonException(20001, "视频删除失败");
+
+        }
+    }
+
+    @Override
+    public void removeMoreAliVideo(List<String> videoIdList) {
+        try {
+            //初始化
+            DefaultAcsClient client = AliyunVodSdkUtil.initVodClient(
+                    ConstantPropertiesUtil.ACCESS_KEY_ID,
+                    ConstantPropertiesUtil.ACCESS_KEY_SECRET);
+
+            //创建请求对象
+            //一次只能批量删20个
+            String str = org.apache.commons.lang.StringUtils.join(videoIdList.toArray(), ",");
+
+            DeleteVideoRequest request = new DeleteVideoRequest();
+
+            request.setVideoIds(str);
+
+            //获取响应
+            DeleteVideoResponse response = client.getAcsResponse(request);
+
+            System.out.print("RequestId = " + response.getRequestId() + "\n");
+
+        } catch (ClientException e) {
 
             throw new LemonException(20001, "视频删除失败");
 

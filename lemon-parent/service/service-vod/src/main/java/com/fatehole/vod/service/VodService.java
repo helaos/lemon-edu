@@ -2,6 +2,8 @@ package com.fatehole.vod.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @author helaos
  * @version 1.0.0
@@ -21,4 +23,10 @@ public interface VodService {
      * @param id 云端视频id
      */
     void removeVideo(String id);
+
+    /**
+     * 批量删除视频
+     * @param videoIdList ID集合
+     */
+    void removeMoreAliVideo(List<String> videoIdList);
 }

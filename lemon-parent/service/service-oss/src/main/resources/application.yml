@@ -6,6 +6,15 @@ spring:
 
   profiles:
     active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+# 单个文件上传最大值
+#  servlet:
+#    multipart:
+#      max-file-size: 3MB
 
 aliyun:
   oss:

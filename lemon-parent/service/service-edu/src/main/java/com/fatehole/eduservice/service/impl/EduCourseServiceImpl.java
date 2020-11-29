@@ -1,5 +1,6 @@
 package com.fatehole.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.eduservice.entity.EduCourse;
@@ -16,9 +17,12 @@ import com.fatehole.eduservice.service.EduVideoService;
 import com.fatehole.servicebase.exception.LemonException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -200,5 +204,11 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         int row = baseMapper.deleteById(id);
 
         return row > 0;
+    }
+
+    @Cacheable(key = "'IndexCourse'", value = "course")
+    @Override
+    public List<EduCourse> selectList(Wrapper<EduCourse> queryWrapper) {
+        return baseMapper.selectList(queryWrapper);
     }
 }

@@ -1,5 +1,6 @@
 package com.fatehole.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.eduservice.entity.EduTeacher;
@@ -7,8 +8,11 @@ import com.fatehole.eduservice.entity.vo.TeacherQuery;
 import com.fatehole.eduservice.mapper.EduTeacherMapper;
 import com.fatehole.eduservice.service.EduTeacherService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -59,5 +63,11 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         }
 
         baseMapper.selectPage(pageParam, wrapper);
+    }
+
+    @Cacheable(key = "'IndexTeacher'", value = "teacher")
+    @Override
+    public List<EduTeacher> selectList(Wrapper<EduTeacher> queryWrapper) {
+        return baseMapper.selectList(queryWrapper);
     }
 }

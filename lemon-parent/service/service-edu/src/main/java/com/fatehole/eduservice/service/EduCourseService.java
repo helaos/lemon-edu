@@ -1,11 +1,15 @@
 package com.fatehole.eduservice.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fatehole.eduservice.entity.vo.CourseInfoVo;
 import com.fatehole.eduservice.entity.vo.CoursePublishVo;
 import com.fatehole.eduservice.entity.vo.CourseQuery;
+import org.apache.poi.ss.formula.functions.T;
+
+import java.util.List;
 
 /**
  * <p>
@@ -64,4 +68,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return 是与否
      */
     boolean removeCourseById(String id);
+
+    /**
+     * 根据条件查询课程数据
+     * @param queryWrapper 条件集
+     * @return 包含数据的结果集
+     */
+    List<EduCourse> selectList(Wrapper<EduCourse> queryWrapper);
 }

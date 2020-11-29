@@ -1,9 +1,13 @@
 package com.fatehole.eduservice.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fatehole.eduservice.entity.EduCourse;
 import com.fatehole.eduservice.entity.EduTeacher;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fatehole.eduservice.entity.vo.TeacherQuery;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,5 +25,12 @@ public interface EduTeacherService extends IService<EduTeacher> {
      * @param teacherQuery 查询条件
      */
     void pageQuery(Page<EduTeacher> pageParam, TeacherQuery teacherQuery);
+
+    /**
+     * 根据条件查询讲师数据
+     * @param queryWrapper 条件集
+     * @return 包含数据的结果集
+     */
+    List<EduTeacher> selectList(Wrapper<EduTeacher> queryWrapper);
 
 }

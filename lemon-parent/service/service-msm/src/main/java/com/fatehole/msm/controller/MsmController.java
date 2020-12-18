@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/api/msm")
+@RequestMapping("/edumsm")
 public class MsmController {
 
     private MsmService msmService;

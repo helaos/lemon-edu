@@ -6,6 +6,8 @@ import com.fatehole.eduservice.entity.EduCourse;
 import com.fatehole.eduservice.entity.EduTeacher;
 import com.fatehole.eduservice.service.EduCourseService;
 import com.fatehole.eduservice.service.EduTeacherService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
+@Api(tags = "前台的首页数据")
 @RequestMapping("/eduservice/index")
 public class IndexFrontController {
 
@@ -38,6 +41,7 @@ public class IndexFrontController {
         this.teacherService = teacherService;
     }
 
+    @ApiOperation(value = "获取首页数据")
     @GetMapping("")
     public Result index() {
 

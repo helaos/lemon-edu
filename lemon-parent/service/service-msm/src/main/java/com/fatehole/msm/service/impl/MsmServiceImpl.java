@@ -31,7 +31,7 @@ public class MsmServiceImpl implements MsmService {
         }
 
         DefaultProfile profile =
-                DefaultProfile.getProfile("default", "<accessKeyId>", "<accessSecret>");
+                DefaultProfile.getProfile("default", "LTAI4GDyF6PhDvdCufAhqVZA", "kGdFtspsCo5ckbT9MIp4vqJP5cRk25");
 
         IAcsClient client = new DefaultAcsClient(profile);
 
@@ -51,10 +51,10 @@ public class MsmServiceImpl implements MsmService {
         request.putQueryParameter("PhoneNumbers", phone);
 
         // 短信签名名称。请在控制台签名管理页面签名名称一列查看。
-        request.putQueryParameter("SignName", "<your SignName>");
+        request.putQueryParameter("SignName", "柠檬在线教育");
 
         // 短信模板ID。请在控制台模板管理页面模板CODE一列查看。
-        request.putQueryParameter("TemplateCode", "<your TemplateCode>");
+        request.putQueryParameter("TemplateCode", "SMS_205887394");
 
         // 短信模板变量对应的实际值，JSON格式 例：{"code":"1111"}
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(param));

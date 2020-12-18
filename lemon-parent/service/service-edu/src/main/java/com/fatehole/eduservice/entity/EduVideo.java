@@ -1,11 +1,9 @@
 package com.fatehole.eduservice.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -66,6 +64,7 @@ public class EduVideo implements Serializable {
     @ApiModelProperty(value = "视频源文件大小（字节）")
     private Long size;
 
+    @Version
     @ApiModelProperty(value = "乐观锁")
     private Long version;
 

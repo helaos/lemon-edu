@@ -129,3 +129,94 @@ CREATE TABLE `crm_banner` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_name` (`title`)
 ) COMMENT='首页banner表';
+
+
+DROP TABLE IF EXISTS `ucenter_member`;
+CREATE TABLE `ucenter_member` (
+    `id` char(19) NOT NULL COMMENT '会员id',
+    `openid` varchar(128) DEFAULT NULL COMMENT '微信openid',
+    `mobile` varchar(11) DEFAULT '' COMMENT '手机号',
+    `password` varchar(255) DEFAULT NULL COMMENT '密码',
+    `nickname` varchar(50) DEFAULT NULL COMMENT '昵称',
+    `sex` tinyint(2) unsigned DEFAULT NULL COMMENT '性别 1 女，2 男',
+    `age` tinyint(3) unsigned DEFAULT NULL COMMENT '年龄',
+    `avatar` varchar(255) DEFAULT NULL COMMENT '用户头像',
+    `sign` varchar(100) DEFAULT NULL COMMENT '用户签名',
+    `is_disabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用 1（true）已禁用，  0（false）未禁用',
+    `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+    `update_time` datetime(0) NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) COMMENT='会员表';
+
+DROP TABLE IF EXISTS `edu_comment`;
+CREATE TABLE `edu_comment` (
+    `id` char(19) NOT NULL COMMENT '讲师ID',
+    `course_id` varchar(19) NOT NULL DEFAULT '' COMMENT '课程id',
+    `teacher_id` char(19) NOT NULL DEFAULT '' COMMENT '讲师id',
+    `member_id` varchar(19) NOT NULL DEFAULT '' COMMENT '会员id',
+    `nickname` varchar(50) DEFAULT NULL COMMENT '会员昵称',
+    `avatar` varchar(255) DEFAULT NULL COMMENT '会员头像',
+    `content` varchar(500) DEFAULT NULL COMMENT '评论内容',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_course_id` (`course_id`),
+    KEY `idx_teacher_id` (`teacher_id`),
+    KEY `idx_member_id` (`member_id`)
+) COMMENT='评论';
+
+DROP TABLE IF EXISTS `oms_order`;
+CREATE TABLE `oms_order` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT '订单ID',
+    `order_no` varchar(20) NOT NULL DEFAULT '' COMMENT '订单号',
+    `course_id` varchar(19) NOT NULL DEFAULT '' COMMENT '课程id',
+    `course_title` varchar(100) DEFAULT NULL COMMENT '课程名称',
+    `course_cover` varchar(255) DEFAULT NULL COMMENT '课程封面',
+    `teacher_name` varchar(20) DEFAULT NULL COMMENT '讲师名称',
+    `member_id` varchar(19) NOT NULL DEFAULT '' COMMENT '会员id',
+    `nickname` varchar(50) DEFAULT NULL COMMENT '会员昵称',
+    `mobile` varchar(11) DEFAULT NULL COMMENT '会员手机',
+    `total_fee` decimal(10,2) DEFAULT '0.01' COMMENT '订单金额（分）',
+    `pay_type` tinyint(3) DEFAULT NULL COMMENT '支付类型（1：微信 2：支付宝）',
+    `status` tinyint(3) DEFAULT NULL COMMENT '订单状态（0：未支付 1：已支付）',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `ux_order_no` (`order_no`),
+    KEY `idx_course_id` (`course_id`),
+    KEY `idx_member_id` (`member_id`)
+) COMMENT='订单';
+
+DROP TABLE IF EXISTS `oms_pay_log`;
+CREATE TABLE `oms_pay_log` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT '订单日志ID',
+    `order_no` varchar(20) NOT NULL DEFAULT '' COMMENT '订单号',
+    `pay_time` datetime DEFAULT NULL COMMENT '支付完成时间',
+    `total_fee` decimal(10,2) DEFAULT '0.01' COMMENT '支付金额（分）',
+    `transaction_id` varchar(30) DEFAULT NULL COMMENT '交易流水号',
+    `trade_state` char(20) DEFAULT NULL COMMENT '交易状态',
+    `pay_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '支付类型（1：微信 2：支付宝）',
+    `attribute` text COMMENT '其他属性',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_order_no` (`order_no`)
+) COMMENT='支付日志表';
+
+DROP TABLE IF EXISTS `statistics_daily`;
+CREATE TABLE `statistics_daily` (
+    `id` char(19) NOT NULL COMMENT '主键',
+    `date_calculated` varchar(20) NOT NULL COMMENT '统计日期',
+    `register_num` int(11) NOT NULL DEFAULT '0' COMMENT '注册人数',
+    `login_num` int(11) NOT NULL DEFAULT '0' COMMENT '登录人数',
+    `video_view_num` int(11) NOT NULL DEFAULT '0' COMMENT '每日播放视频数',
+    `course_num` int(11) NOT NULL DEFAULT '0' COMMENT '每日新增课程数',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `statistics_day` (`date_calculated`)
+) COMMENT='网站统计日数据';

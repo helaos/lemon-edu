@@ -12,7 +12,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -69,5 +71,28 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
     @Override
     public List<EduTeacher> selectList(Wrapper<EduTeacher> queryWrapper) {
         return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public Map<String, Object> getTeacherFrontList(Page<EduTeacher> teacherPage) {
+
+        QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
+        // 排序
+        wrapper.orderByDesc("id");
+        // 查询
+        baseMapper.selectPage(teacherPage, wrapper);
+
+        // 分页数据包装
+        Map<String, Object> result = new HashMap<>(16);
+
+        result.put("rows", teacherPage.getRecords());
+        result.put("current", teacherPage.getCurrent());
+        result.put("pages", teacherPage.getPages());
+        result.put("total", teacherPage.getTotal());
+        result.put("size", teacherPage.getSize());
+        result.put("hasNext", teacherPage.hasNext());
+        result.put("hasPrevious", teacherPage.hasPrevious());
+
+        return result;
     }
 }

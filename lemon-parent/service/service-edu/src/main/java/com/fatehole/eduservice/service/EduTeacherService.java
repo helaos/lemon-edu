@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.fatehole.eduservice.entity.vo.TeacherQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,4 +34,10 @@ public interface EduTeacherService extends IService<EduTeacher> {
      */
     List<EduTeacher> selectList(Wrapper<EduTeacher> queryWrapper);
 
+    /**
+     * 前台页面的教师分页方法
+     * @param teacherPage 分页对象
+     * @return map集合
+     */
+    Map<String, Object> getTeacherFrontList(Page<EduTeacher> teacherPage);
 }

@@ -4,12 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fatehole.eduservice.entity.vo.CourseInfoVo;
-import com.fatehole.eduservice.entity.vo.CoursePublishVo;
-import com.fatehole.eduservice.entity.vo.CourseQuery;
-import org.apache.poi.ss.formula.functions.T;
+import com.fatehole.eduservice.entity.vo.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -75,4 +73,25 @@ public interface EduCourseService extends IService<EduCourse> {
      * @return 包含数据的结果集
      */
     List<EduCourse> selectList(Wrapper<EduCourse> queryWrapper);
+
+    /**
+     * 带条件查询带分页查询课程
+     * @param coursePage 课程分页对象
+     * @param courseQuery 课程查询对象
+     * @return 结构集
+     */
+    Map<String, Object> getCourseFrontList(Page<EduCourse> coursePage, CourseQueryVo courseQuery);
+
+    /**
+     * 根据课程ID查询课程信息
+     * @param id 课程ID
+     * @return 课程信息
+     */
+    CourseWebVo getBaseCourseInfo(String id);
+
+    /**
+     * 更新课程浏览数
+     * @param id 课程ID
+     */
+    void updatePageViewCount(String id);
 }

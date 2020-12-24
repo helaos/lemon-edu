@@ -1,5 +1,5 @@
 {
-  "name": "lemon-ui",
+  "name": "lemon-front",
   "version": "1.0.0",
   "description": "柠檬🍋教育前台网站",
   "author": "helaos <cifanse@outlook.com>",
@@ -14,8 +14,11 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "element-ui": "^2.14.1",
+    "js-cookie": "^2.2.1",
     "nuxt": "^2.0.0",
-    "vue-awesome-swiper": "^3.1.3"
+    "vue-awesome-swiper": "^3.1.3",
+    "vue-qriously": "^1.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

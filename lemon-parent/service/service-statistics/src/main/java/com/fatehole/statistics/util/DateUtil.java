@@ -24,8 +24,8 @@ public class DateUtil {
     /**
      * 格式化日期
      *
-     * @param date
-     * @return
+     * @param date 时间
+     * @return 格式化时间
      */
     public static String formatDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);

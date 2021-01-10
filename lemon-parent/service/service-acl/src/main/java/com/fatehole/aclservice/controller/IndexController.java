@@ -1,21 +1,14 @@
 package com.fatehole.aclservice.controller;
 
-
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>
- * 用户角色 前端控制器
- * </p>
- *
  * @author helaos
- * @since 2020-12-22
+ * @version 1.0.0
+ * @date Create in 2021/01/10/20:05
  */
 @RestController
-@RequestMapping("/aclservice/user-role")
-public class UserRoleController {
-
+@RequestMapping("/admin/acl/index")
+public class IndexController {
 }
-

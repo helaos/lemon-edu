@@ -31,7 +31,7 @@ public class MsmServiceImpl implements MsmService {
         }
 
         DefaultProfile profile =
-                DefaultProfile.getProfile("default", "Your Access Key", "Your Access Secret");
+                DefaultProfile.getProfile("default", "<you accessKeyId>", "<you secret>");
 
         IAcsClient client = new DefaultAcsClient(profile);
 

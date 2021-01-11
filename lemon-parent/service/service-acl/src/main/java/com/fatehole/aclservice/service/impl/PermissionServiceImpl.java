@@ -1,12 +1,17 @@
 package com.fatehole.aclservice.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fatehole.aclservice.entity.Permission;
 import com.fatehole.aclservice.entity.RolePermission;
+import com.fatehole.aclservice.entity.User;
+import com.fatehole.aclservice.helper.MenuHelper;
+import com.fatehole.aclservice.helper.PermissionHelper;
 import com.fatehole.aclservice.mapper.PermissionMapper;
 import com.fatehole.aclservice.service.PermissionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fatehole.aclservice.service.RolePermissionService;
+import com.fatehole.aclservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +32,13 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     private static final String NODE_ID = "0";
 
     private RolePermissionService rolePermissionService;
+
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setRolePermissionService(RolePermissionService rolePermissionService) {
@@ -75,6 +87,56 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         }
         // 添加到数据库
         rolePermissionService.saveBatch(rolePermissionList);
+    }
+
+    @Override
+    public List<Permission> selectAllMenu(String roleId) {
+        List<Permission> allPermissionList = baseMapper.selectList(new QueryWrapper<Permission>().orderByAsc("CAST(id AS SIGNED)"));
+
+        //根据角色id获取角色权限
+        List<RolePermission> rolePermissionList = rolePermissionService.list(new QueryWrapper<RolePermission>().eq("role_id",roleId));
+
+        for (Permission permission : allPermissionList) {
+            for (RolePermission rolePermission : rolePermissionList) {
+                if (rolePermission.getPermissionId().equals(permission.getId())) {
+                    permission.setSelect(true);
+                }
+            }
+        }
+
+        return buildPermission(allPermissionList);
+    }
+
+    @Override
+    public List<String> selectPermissionValueByUserId(String id) {
+        List<String> selectPermissionValueList;
+        if(this.isSysAdmin(id)) {
+            //如果是系统管理员，获取所有权限
+            selectPermissionValueList = baseMapper.selectAllPermissionValue();
+        } else {
+            selectPermissionValueList = baseMapper.selectPermissionValueByUserId(id);
+        }
+        return selectPermissionValueList;
+    }
+
+    private boolean isSysAdmin(String userId) {
+        User user = userService.getById(userId);
+        String admin = "admin";
+        return null != user && admin.equals(user.getUsername());
+    }
+
+    @Override
+    public List<JSONObject> selectPermissionByUserId(String id) {
+        List<Permission> selectPermissionList;
+        if(this.isSysAdmin(id)) {
+            //如果是超级管理员，获取所有菜单
+            selectPermissionList = baseMapper.selectList(null);
+        } else {
+            selectPermissionList = baseMapper.selectPermissionByUserId(id);
+        }
+
+        List<Permission> permissionList = PermissionHelper.build(selectPermissionList);
+        return MenuHelper.build(permissionList);
     }
 
     /**

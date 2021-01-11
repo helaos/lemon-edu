@@ -67,6 +67,10 @@ public class Permission implements Serializable {
     @TableField(exist = false)
     private List<Permission> children;
 
+    @ApiModelProperty(value = "是否选中")
+    @TableField(exist = false)
+    private boolean isSelect;
+
     @ApiModelProperty(value = "逻辑删除 1（true）已删除， 0（false）未删除")
     private Boolean isDeleted;
 

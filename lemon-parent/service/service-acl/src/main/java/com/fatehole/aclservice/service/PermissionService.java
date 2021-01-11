@@ -1,5 +1,6 @@
 package com.fatehole.aclservice.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fatehole.aclservice.entity.Permission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -33,4 +34,25 @@ public interface PermissionService extends IService<Permission> {
      * @param permissionList 权限集合
      */
     void saveRolePermissionRelationship(String roleId, String[] permissionList);
+
+    /**
+     * 根据角色获取菜单
+     * @param roleId 角色ID
+     * @return 菜单
+     */
+    List<Permission> selectAllMenu(String roleId);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    List<String> selectPermissionValueByUserId(String id);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    List<JSONObject> selectPermissionByUserId(String id);
 }

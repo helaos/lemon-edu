@@ -18,6 +18,7 @@ import java.util.List;
  * @author helaos
  * @since 2020-12-22
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/admin/acl/permission")
 public class PermissionController {
@@ -36,7 +37,7 @@ public class PermissionController {
         return Result.ok().data("children", list);
     }
 
-    @ApiOperation("删除菜单")
+    @ApiOperation("递归删除菜单")
     @DeleteMapping("/{id}")
     public Result removePermission(@PathVariable("id") String id) {
         permissionService.removeChildrenById(id);
@@ -49,5 +50,27 @@ public class PermissionController {
         permissionService.saveRolePermissionRelationship(roleId, permissionList);
         return Result.ok();
     }
+
+    @ApiOperation("根据角色获取菜单")
+    @GetMapping("/toAssign/{roleId}")
+    public Result toAssign(@PathVariable("roleId") String roleId) {
+        List<Permission> list = permissionService.selectAllMenu(roleId);
+        return Result.ok().data("children", list);
+    }
+
+    @ApiOperation("新增菜单")
+    @PostMapping("")
+    public Result save(@RequestBody Permission permission) {
+        permissionService.save(permission);
+        return Result.ok();
+    }
+
+    @ApiOperation("修改菜单")
+    @PutMapping("")
+    public Result updateById(@RequestBody Permission permission) {
+        permissionService.updateById(permission);
+        return Result.ok();
+    }
+
 }
 

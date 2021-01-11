@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fatehole.aclservice.mapper.PermissionMapper">
 
-    <resultMap id="permissionMap" type="com.atguigu.aclservice.entity.Permission">
+    <resultMap id="permissionMap" type="com.fatehole.aclservice.entity.Permission">
         <result property="id" column="id"/>
         <result property="pid" column="pid"/>
         <result property="name" column="name"/>

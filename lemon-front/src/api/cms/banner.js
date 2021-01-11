@@ -31,7 +31,7 @@ export default {
    * 修改信息
    * @param {*} bannerObj 修改信息对象
    */
-  updateBannerInfo (bannerObj) {
+  updateBannerInfo(bannerObj) {
     return request({
       url: '/educms/admin/banner',
       method: 'put',
@@ -54,7 +54,7 @@ export default {
    * 保存轮播图
    * @param {*} bannerObj 保存信息
    */
-  addBannerInfo (bannerObj) {
+  addBannerInfo(bannerObj) {
     return request({
       url: '/educms/admin/banner',
       method: 'post',

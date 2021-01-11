@@ -80,6 +80,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<Role> selectRoleByUserId(String id) {
-        return null;
+        //根据用户id拥有的角色id
+        List<UserRole> userRoleList = userRoleService.list(new QueryWrapper<UserRole>().eq("user_id", id).select("role_id"));
+        List<String> roleIdList = userRoleList.stream().map(UserRole::getRoleId).collect(Collectors.toList());
+        List<Role> roleList = new ArrayList<>();
+        if(roleIdList.size() > 0) {
+            roleList = baseMapper.selectBatchIds(roleIdList);
+        }
+        return roleList;
     }
 }

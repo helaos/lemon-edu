@@ -22,7 +22,7 @@ import java.util.List;
  * @author helaos
  * @since 2020-12-22
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/admin/acl/role")
 public class RoleController {

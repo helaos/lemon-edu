@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "管理员登陆" )
 @RestController
 @RequestMapping("/eduservice/user")
-@CrossOrigin
+// @CrossOrigin
 public class EduLoginController {
 
     @PostMapping("/login")

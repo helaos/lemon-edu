@@ -23,7 +23,7 @@ import java.util.HashMap;
  * @date Create in 2020/12/02/12:47
  */
 @CrossOrigin
-@Controller
+// @Controller
 @RequestMapping("/api/ucenter/wx")
 public class WxApiController {
 

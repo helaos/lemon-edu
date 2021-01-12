@@ -1,0 +1,53 @@
+server:
+  port: 8007
+
+spring:
+  application:
+    name: service-order
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lemon_edu?serverTimezone=GMT%2B8
+    username: root
+    password: 12138
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+#开启熔断机制
+feign:
+  hystrix:
+    enabled: true
+
+# 设置hystrix超时时间，默认1000ms
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000
+
+mybatis-plus:
+  mapper-locations: classpath:com/fatehole/order/mapper/xml/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+weixin:
+  pay:
+    #关联的公众号appid
+    appid: wx74862e0dfcf69954
+    #商户号
+    partner: 1558950191
+    #商户key
+    partnerkey: T6m9iK73b0kn9g5v426MKfHQH7X8rKwb
+    #回调地址
+    notifyurl: http://guli.shop/api/order/weixinPay/weixinNotify

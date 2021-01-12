@@ -3,6 +3,7 @@ package com.fatehole.eduservice.mapper;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fatehole.eduservice.entity.vo.CoursePublishVo;
+import com.fatehole.eduservice.entity.vo.CourseWebVo;
 
 /**
  * <p>
@@ -21,4 +22,10 @@ public interface EduCourseMapper extends BaseMapper<EduCourse> {
      */
     CoursePublishVo selectCoursePublishVoById(String id);
 
+    /**
+     * 根据课程ID查询课程信息
+     * @param id 课程ID
+     * @return 课程信息
+     */
+    CourseWebVo getBaseCourseInfo(String id);
 }

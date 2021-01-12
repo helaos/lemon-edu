@@ -1,12 +1,11 @@
 package com.fatehole.eduservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fatehole.eduservice.entity.EduCourse;
 import com.fatehole.eduservice.entity.EduCourseDescription;
-import com.fatehole.eduservice.entity.vo.CourseInfoVo;
-import com.fatehole.eduservice.entity.vo.CoursePublishVo;
-import com.fatehole.eduservice.entity.vo.CourseQuery;
+import com.fatehole.eduservice.entity.vo.*;
 import com.fatehole.eduservice.mapper.EduCourseMapper;
 import com.fatehole.eduservice.service.EduChapterService;
 import com.fatehole.eduservice.service.EduCourseDescriptionService;
@@ -16,9 +15,14 @@ import com.fatehole.eduservice.service.EduVideoService;
 import com.fatehole.servicebase.exception.LemonException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -200,5 +204,74 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         int row = baseMapper.deleteById(id);
 
         return row > 0;
+    }
+
+    @Cacheable(key = "'IndexCourse'", value = "course")
+    @Override
+    public List<EduCourse> selectList(Wrapper<EduCourse> queryWrapper) {
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public Map<String, Object> getCourseFrontList(Page<EduCourse> coursePage, CourseQueryVo courseQuery) {
+
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+
+        // 获取条件参数
+        String subjectId = courseQuery.getSubjectId();
+        String subjectParentId = courseQuery.getSubjectParentId();
+        String buyCountSort = courseQuery.getBuyCountSort();
+        String gmtCreateSort = courseQuery.getGmtCreateSort();
+        String priceSort = courseQuery.getPriceSort();
+
+        if (!StringUtils.isEmpty(subjectParentId)) {
+            wrapper.eq("subject_parent_id", subjectParentId);
+        }
+
+        if (!StringUtils.isEmpty(subjectId)) {
+            wrapper.eq("subject_id", subjectId);
+        }
+
+        if (!StringUtils.isEmpty(buyCountSort)) {
+            wrapper.orderByDesc("buy_count");
+        }
+
+        if (!StringUtils.isEmpty(gmtCreateSort)) {
+            wrapper.orderByDesc("create_time");
+        }
+
+        if (!StringUtils.isEmpty(priceSort)) {
+            wrapper.orderByDesc("price");
+        }
+
+        baseMapper.selectPage(coursePage, wrapper);
+
+        Map<String, Object> result = new HashMap<>(16);
+        result.put("rows", coursePage.getRecords());
+        result.put("current", coursePage.getCurrent());
+        result.put("pages", coursePage.getPages());
+        result.put("size", coursePage.getSize());
+        result.put("total", coursePage.getTotal());
+        result.put("hasNext", coursePage.hasNext());
+        result.put("hasPrevious", coursePage.hasPrevious());
+
+        return result;
+    }
+
+    @Override
+    public CourseWebVo getBaseCourseInfo(String id) {
+        // 增加浏览量
+        this.updatePageViewCount(id);
+        return baseMapper.getBaseCourseInfo(id);
+    }
+
+    @Override
+    public void updatePageViewCount(String id) {
+        // 根据ID查出课程具体信息
+        EduCourse course = baseMapper.selectById(id);
+        // 浏览量 +1
+        course.setViewCount(course.getViewCount() + 1);
+        // 执行
+        baseMapper.updateById(course);
     }
 }

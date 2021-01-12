@@ -28,7 +28,7 @@
         </el-select>
       </el-form-item>
 
-      <!-- 课程讲师 TODO -->
+
       <el-form-item label="课程讲师">
         <el-select v-model="courseInfo.teacherId" placeholder="请选择">
           <el-option v-for="teacher in teacherList" :key="teacher.id" :label="teacher.name" :value="teacher.id" />
@@ -44,7 +44,7 @@
         <tinymce :height="300" v-model="courseInfo.description" />
       </el-form-item>
 
-      <!-- 课程封面 TODO -->
+      <!-- 课程封面 -->
       <el-form-item label="课程封面">
         <el-upload :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload"
           :action="BASE_API+'/eduoss/file/upload?host=cover'" class="avatar-uploader">

@@ -114,3 +114,180 @@ CREATE TABLE `edu_video` (
     KEY `idx_course_id` (`course_id`),
     KEY `idx_chapter_id` (`chapter_id`)
 ) COMMENT='课程视频表';
+
+
+DROP TABLE IF EXISTS `crm_banner`;
+CREATE TABLE `crm_banner` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT 'ID',
+    `title` varchar(20) DEFAULT '' COMMENT '标题',
+    `image_url` varchar(500) NOT NULL DEFAULT '' COMMENT '图片地址',
+    `link_url` varchar(500) DEFAULT '' COMMENT '链接地址',
+    `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+    `update_time` datetime(0) NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_name` (`title`)
+) COMMENT='首页banner表';
+
+
+DROP TABLE IF EXISTS `ucenter_member`;
+CREATE TABLE `ucenter_member` (
+    `id` char(19) NOT NULL COMMENT '会员id',
+    `openid` varchar(128) DEFAULT NULL COMMENT '微信openid',
+    `mobile` varchar(11) DEFAULT '' COMMENT '手机号',
+    `password` varchar(255) DEFAULT NULL COMMENT '密码',
+    `nickname` varchar(50) DEFAULT NULL COMMENT '昵称',
+    `sex` tinyint(2) unsigned DEFAULT NULL COMMENT '性别 1 女，2 男',
+    `age` tinyint(3) unsigned DEFAULT NULL COMMENT '年龄',
+    `avatar` varchar(255) DEFAULT NULL COMMENT '用户头像',
+    `sign` varchar(100) DEFAULT NULL COMMENT '用户签名',
+    `is_disabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用 1（true）已禁用，  0（false）未禁用',
+    `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+    `update_time` datetime(0) NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) COMMENT='会员表';
+
+DROP TABLE IF EXISTS `edu_comment`;
+CREATE TABLE `edu_comment` (
+    `id` char(19) NOT NULL COMMENT '讲师ID',
+    `course_id` varchar(19) NOT NULL DEFAULT '' COMMENT '课程id',
+    `teacher_id` char(19) NOT NULL DEFAULT '' COMMENT '讲师id',
+    `member_id` varchar(19) NOT NULL DEFAULT '' COMMENT '会员id',
+    `nickname` varchar(50) DEFAULT NULL COMMENT '会员昵称',
+    `avatar` varchar(255) DEFAULT NULL COMMENT '会员头像',
+    `content` varchar(500) DEFAULT NULL COMMENT '评论内容',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_course_id` (`course_id`),
+    KEY `idx_teacher_id` (`teacher_id`),
+    KEY `idx_member_id` (`member_id`)
+) COMMENT='评论';
+
+DROP TABLE IF EXISTS `oms_order`;
+CREATE TABLE `oms_order` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT '订单ID',
+    `order_no` varchar(20) NOT NULL DEFAULT '' COMMENT '订单号',
+    `course_id` varchar(19) NOT NULL DEFAULT '' COMMENT '课程id',
+    `course_title` varchar(100) DEFAULT NULL COMMENT '课程名称',
+    `course_cover` varchar(255) DEFAULT NULL COMMENT '课程封面',
+    `teacher_name` varchar(20) DEFAULT NULL COMMENT '讲师名称',
+    `member_id` varchar(19) NOT NULL DEFAULT '' COMMENT '会员id',
+    `nickname` varchar(50) DEFAULT NULL COMMENT '会员昵称',
+    `mobile` varchar(11) DEFAULT NULL COMMENT '会员手机',
+    `total_fee` decimal(10,2) DEFAULT '0.01' COMMENT '订单金额（分）',
+    `pay_type` tinyint(3) DEFAULT NULL COMMENT '支付类型（1：微信 2：支付宝）',
+    `status` tinyint(3) DEFAULT NULL COMMENT '订单状态（0：未支付 1：已支付）',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `ux_order_no` (`order_no`),
+    KEY `idx_course_id` (`course_id`),
+    KEY `idx_member_id` (`member_id`)
+) COMMENT='订单';
+
+DROP TABLE IF EXISTS `oms_pay_log`;
+CREATE TABLE `oms_pay_log` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT '订单日志ID',
+    `order_no` varchar(20) NOT NULL DEFAULT '' COMMENT '订单号',
+    `pay_time` datetime DEFAULT NULL COMMENT '支付完成时间',
+    `total_fee` decimal(10,2) DEFAULT '0.01' COMMENT '支付金额（分）',
+    `transaction_id` varchar(30) DEFAULT NULL COMMENT '交易流水号',
+    `trade_state` char(20) DEFAULT NULL COMMENT '交易状态',
+    `pay_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '支付类型（1：微信 2：支付宝）',
+    `attribute` text COMMENT '其他属性',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_order_no` (`order_no`)
+) COMMENT='支付日志表';
+
+DROP TABLE IF EXISTS `statistics_daily`;
+CREATE TABLE `statistics_daily` (
+    `id` char(19) NOT NULL COMMENT '主键',
+    `date_calculated` varchar(20) NOT NULL COMMENT '统计日期',
+    `register_num` int(11) NOT NULL DEFAULT '0' COMMENT '注册人数',
+    `login_num` int(11) NOT NULL DEFAULT '0' COMMENT '登录人数',
+    `video_view_num` int(11) NOT NULL DEFAULT '0' COMMENT '每日播放视频数',
+    `course_num` int(11) NOT NULL DEFAULT '0' COMMENT '每日新增课程数',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `statistics_day` (`date_calculated`)
+) COMMENT='网站统计日数据';
+
+DROP TABLE IF EXISTS `acl_permission`;
+CREATE TABLE `acl_permission` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT '编号',
+    `pid` char(19) NOT NULL DEFAULT '' COMMENT '所属上级',
+    `name` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
+    `type` tinyint(3) NOT NULL DEFAULT '0' COMMENT '类型(1:菜单,2:按钮)',
+    `permission_value` varchar(50) DEFAULT NULL COMMENT '权限值',
+    `path` varchar(100) DEFAULT NULL COMMENT '访问路径',
+    `component` varchar(100) DEFAULT NULL COMMENT '组件路径',
+    `icon` varchar(50) DEFAULT NULL COMMENT '图标',
+    `status` tinyint(4) DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_pid` (`pid`)
+) COMMENT='权限';
+
+DROP TABLE IF EXISTS `acl_role`;
+CREATE TABLE `acl_role` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT '角色id',
+    `role_name` varchar(20) NOT NULL DEFAULT '' COMMENT '角色名称',
+    `role_code` varchar(20) DEFAULT NULL COMMENT '角色编码',
+    `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) COMMENT '角色';
+
+DROP TABLE IF EXISTS `acl_role_permission`;
+CREATE TABLE `acl_role_permission` (
+    `id` char(19) NOT NULL DEFAULT '',
+    `role_id` char(19) NOT NULL DEFAULT '',
+    `permission_id` char(19) NOT NULL DEFAULT '',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_role_id` (`role_id`),
+    KEY `idx_permission_id` (`permission_id`)
+) COMMENT='角色权限';
+
+DROP TABLE IF EXISTS `acl_user`;
+CREATE TABLE `acl_user` (
+    `id` char(19) NOT NULL COMMENT '会员id',
+    `username` varchar(20) NOT NULL DEFAULT '' COMMENT '微信openid',
+    `password` varchar(32) NOT NULL DEFAULT '' COMMENT '密码',
+    `nick_name` varchar(50) DEFAULT NULL COMMENT '昵称',
+    `salt` varchar(255) DEFAULT NULL COMMENT '用户头像',
+    `token` varchar(100) DEFAULT NULL COMMENT '用户签名',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uk_username` (`username`)
+) COMMENT='用户表';
+
+DROP TABLE IF EXISTS `acl_user_role`;
+CREATE TABLE `acl_user_role` (
+    `id` char(19) NOT NULL DEFAULT '' COMMENT '主键id',
+    `role_id` char(19) NOT NULL DEFAULT '0' COMMENT '角色id',
+    `user_id` char(19) NOT NULL DEFAULT '0' COMMENT '用户id',
+    `is_deleted` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+    `create_time` datetime NOT NULL COMMENT '创建时间',
+    `update_time` datetime NOT NULL COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_role_id` (`role_id`),
+    KEY `idx_user_id` (`user_id`)
+) COMMENT '用户角色';

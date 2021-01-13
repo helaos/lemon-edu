@@ -23,7 +23,7 @@ import java.util.Map;
  * @since 2020-11-08
  */
 @Api(tags = "教师管理" )
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/eduservice/teacher")
 public class EduTeacherController {

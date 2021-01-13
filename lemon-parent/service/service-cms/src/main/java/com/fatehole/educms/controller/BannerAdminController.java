@@ -23,7 +23,7 @@ import java.util.Map;
  * @since 2020-11-27
  */
 @Api(tags = "管理Banner")
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/educms/admin/banner")
 public class BannerAdminController {

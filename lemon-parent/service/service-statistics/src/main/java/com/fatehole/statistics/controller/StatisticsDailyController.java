@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Api(tags = "统计数据管理")
 @RestController
-@CrossOrigin
+// @CrossOrigin
 @RequestMapping("/statistics/daily")
 public class StatisticsDailyController {
 

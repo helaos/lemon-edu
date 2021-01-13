@@ -22,7 +22,7 @@ import java.util.List;
  * @author helaos
  * @since 2020-11-27
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/educms/front/banner")
 public class BannerFrontController {

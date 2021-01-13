@@ -29,7 +29,7 @@ import java.util.Map;
  * @since 2020-12-09
  */
 @RestController
-@CrossOrigin
+// @CrossOrigin
 @RequestMapping("/eduservice/comment")
 public class EduCommentController {
 

@@ -26,7 +26,7 @@ import java.util.Map;
  * @since 2020-11-19
  */
 @Api(tags = "课程信息管理")
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/eduservice/course")
 public class EduCourseController {

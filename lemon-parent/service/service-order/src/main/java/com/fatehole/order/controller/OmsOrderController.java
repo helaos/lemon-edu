@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author helaos
  * @since 2020-12-10
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/eduorder/order")
 public class OmsOrderController {

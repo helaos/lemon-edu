@@ -17,7 +17,7 @@ import java.util.Map;
  * @author helaos
  * @since 2020-12-10
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/eduorder/pay")
 public class OmsPayLogController {

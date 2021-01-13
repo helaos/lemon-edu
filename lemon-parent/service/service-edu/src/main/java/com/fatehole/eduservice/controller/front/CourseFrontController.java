@@ -27,7 +27,7 @@ import java.util.Map;
  * @version 1.0.0
  * @date Create in 2020/12/06/23:24
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @Api(tags = "前台的课程页面")
 @RequestMapping("/eduservice/front/course")

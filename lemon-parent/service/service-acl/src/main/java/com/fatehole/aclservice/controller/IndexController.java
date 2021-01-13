@@ -15,7 +15,7 @@ import java.util.Map;
  * @version 1.0.0
  * @date Create in 2021/01/10/20:05
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/admin/acl/index")
 public class IndexController {

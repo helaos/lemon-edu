@@ -21,7 +21,7 @@ import java.util.List;
  * @version 1.0.0
  * @date Create in 2020/11/28/23:26
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @Api(tags = "前台的首页数据")
 @RequestMapping("/eduservice/index")

@@ -23,7 +23,7 @@ import java.util.List;
  * @version 1.0.0
  * @date Create in 2020/11/26/10:53
  */
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @Api(tags = "阿里云视频点播微服务")
 @RequestMapping("/eduvod/video")

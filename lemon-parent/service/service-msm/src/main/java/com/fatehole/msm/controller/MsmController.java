@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @date Create in 2020/11/29/20:39
  */
 @RestController
-@CrossOrigin
+// @CrossOrigin
 @RequestMapping("/edumsm")
 public class MsmController {
 

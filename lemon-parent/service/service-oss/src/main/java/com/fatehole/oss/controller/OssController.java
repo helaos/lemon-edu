@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @date Create in 2020/11/15/19:56
  */
 @Api(tags="阿里云文件管理")
-@CrossOrigin
+// @CrossOrigin
 @RestController
 @RequestMapping("/eduoss/file")
 public class OssController {

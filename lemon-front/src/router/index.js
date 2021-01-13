@@ -21,7 +21,7 @@ import Layout from '../views/layout/Layout'
     icon: 'svg-name'             the icon show in the sidebar,
   }
 **/
-export const constantRouterMap = [{
+export const constantRoutes = [{
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -47,6 +47,12 @@ export const constantRouterMap = [{
       }
     }]
   },
+]
+
+/**
+ * 动态路由
+ */
+export const asyncRoutes = [
 
   {
     path: '/teacher',
@@ -221,35 +227,105 @@ export const constantRouterMap = [{
   },
 
   {
-    path: '/example',
+    path: '/statistics',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
+    redirect: '/statistics/table',
+    name: 'Statistics',
     meta: {
-      title: 'Example',
-      icon: 'example'
+      title: '统计分析',
+      icon: 'chart'
     },
     children: [{
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
+        path: 'create',
+        name: '生成统计',
+        component: () => import('@/views/statistics/create'),
         meta: {
-          title: 'Table',
-          icon: 'table'
+          title: '生成统计',
+          icon: 'nested'
         }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
+        path: 'table',
+        name: '图表显示',
+        component: () => import('@/views/statistics/table'),
         meta: {
-          title: 'Tree',
-          icon: 'tree'
+          title: '统计显示',
+          icon: 'excel'
         }
       }
     ]
   },
 
+  {
+    path: '/acl',
+    component: Layout,
+    redirect: '/acl/user/list',
+    name: '权限管理',
+    meta: { title: '权限管理', icon: 'chart' },
+    children: [
+      {
+        path: 'user/list',
+        name: '用户管理',
+        component: () => import('@/views/acl/user/list'),
+        meta: { title: '用户管理' }
+      },
+      {
+        path: 'role/list',
+        name: '角色管理',
+        component: () => import('@/views/acl/role/list'),
+        meta: { title: '角色管理' }
+      },
+      {
+        path: 'role/form',
+        name: '角色添加',
+        component: () => import('@/views/acl/role/form'),
+        meta: { title: '角色添加' },
+        hidden: true
+      },
+      {
+        path: 'role/update/:id',
+        name: '角色修改',
+        component: () => import('@/views/acl/role/form'),
+        meta: { title: '角色修改' },
+        hidden: true
+      },
+      {
+        path: 'role/distribution/:id',
+        name: '角色权限',
+        component: () => import('@/views/acl/role/roleForm'),
+        meta: { title: '角色权限' },
+        hidden: true
+      },
+      {
+        path: 'menu/list',
+        name: '菜单管理',
+        component: () => import('@/views/acl/menu/list'),
+        meta: { title: '菜单管理' }
+      },
+      {
+        path: 'user/add',
+        name: '用户添加',
+        component: () => import('@/views/acl/user/form'),
+        meta: { title: '用户添加' },
+        hidden: true
+      },
+      {
+        path: 'user/update/:id',
+        name: '用户修改',
+        component: () => import('@/views/acl/user/form'),
+        meta: { title: '用户修改' },
+        hidden: true
+      },
+      {
+        path: 'user/role/:id',
+        name: '用户角色',
+        component: () => import('@/views/acl/user/roleForm'),
+        meta: { title: '用户角色' },
+        hidden: true
+      }
+
+    ]
+  },
 
   {
     path: '*',
@@ -258,10 +334,20 @@ export const constantRouterMap = [{
   }
 ]
 
-export default new Router({
-  // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({
-    y: 0
-  }),
-  routes: constantRouterMap
+const createRouter = () => new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
 })
+
+const router = createRouter()
+
+export default router
+
+// export default new Router({
+//   // mode: 'history', //后端支持可开
+//   scrollBehavior: () => ({
+//     y: 0
+//   }),
+//   routes: constantRouterMap
+// })
